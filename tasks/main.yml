@@ -1,0 +1,47 @@
+# tasks file for mimetex
+---
+- name: install dependencies
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items: mimetex_dependencies
+  when: mimetex_dependencies
+  tags: [configuration, mimetex, mimetex-dependencies]
+
+- name: create (checkout) directory
+  file:
+    path: /var/lib/ansible/mimetex/checkouts
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  tags: [configuration, mimetex, mimetex-checkout ]
+
+- name: checkout repository
+  git:
+    repo: https://github.com/Oefenweb/mimetex.git
+    dest: "/var/lib/ansible/mimetex/checkouts/mimetex"
+    version: "{{ mimetex_version }}"
+  tags: [configuration, mimetex, mimetex-checkout]
+
+- name: build cgi file
+  shell: "cc -m32 -DAA mimetex.c gifsave.c -lm -o {{ mimetex_install_dir }}/mimetex-{{ mimetex_version }}.cgi"
+  args:
+    chdir: "/var/lib/ansible/mimetex/checkouts/mimetex"
+    creates: "{{ mimetex_install_dir }}/mimetex-{{ mimetex_version }}.cgi"
+  register: result
+  tags: [configuration, mimetex, mimetex-build-cgi]
+
+- name: install cgi file
+  file:
+    src: "{{ mimetex_install_dir }}/mimetex-{{ mimetex_version }}.cgi"
+    dest: "{{ mimetex_install_dir }}/mimetex"
+    state: link
+  tags: [configuration, mimetex, mimetex-install-cgi]
+
+- name: cleanup build
+  shell: "git reset --hard && git clean -d -x -f"
+  args:
+    chdir: "/var/lib/ansible/mimetex/checkouts/mimetex"
+  when: result|changed
+  tags: [configuration, mimetex, mimetex-cleanup-build]
