@@ -37,6 +37,7 @@
     src: "{{ mimetex_install_dir }}/mimetex-{{ mimetex_version }}.cgi"
     dest: "{{ mimetex_install_dir }}/mimetex"
     state: link
+    force: true
   tags: [configuration, mimetex, mimetex-install-cgi]
 
 - name: cleanup build
