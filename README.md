@@ -8,7 +8,7 @@ Set up [mimeTeX](http://www.forkosh.com/mimetex.html) in Ubuntu systems.
 
 * `build-essential` (will be installed)
 * `libc6-dev-i386` (will be installed)
-* `git` (will be installed)
+* `git-core` (will be installed)
 
 #### Variables
 
