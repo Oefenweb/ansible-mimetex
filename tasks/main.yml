@@ -34,6 +34,12 @@
   register: result
   tags: [configuration, mimetex, mimetex-build-cgi]
 
+- name: uninstall apt version
+  apt:
+    name: mimetex
+    state: absent
+  tags: [configuration, mimetex, mimetex-uninstall]
+
 - name: install cgi file
   file:
     src: "{{ mimetex_install_dir }}/mimetex-{{ mimetex_version }}.cgi"

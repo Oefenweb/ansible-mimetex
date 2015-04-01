@@ -12,9 +12,6 @@ env:
 before_install:
   - sudo apt-get update -qq
 
-  # Remove mimetex
-  - sudo apt-get remove --purge mimetex || true
-
 install:
   # Install Ansible.
   - pip install ansible==$ANSIBLE_VERSION
