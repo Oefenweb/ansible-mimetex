@@ -12,7 +12,7 @@ Set up [mimeTeX](http://www.forkosh.com/mimetex.html) in Ubuntu systems.
 
 #### Variables
 
-* `mimetex_version` [default: `1.50-1.1`]: What version of mimetex to check out (set up). This can be either `1.50-1.1`, `1.73-2` or `1.74-1`
+* `mimetex_version` [default: `1.74-1`]: What version of mimetex to check out (set up). This can be either `1.50-1.1`, `1.73-2` or `1.74-1`
 * `mimetex_install_dir` [default: `/usr/bin`]: Install directory
 
 ## Dependencies
