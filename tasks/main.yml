@@ -7,7 +7,6 @@
     update_cache: true
     cache_valid_time: 3600
   with_items: mimetex_dependencies
-  when: mimetex_dependencies
   tags: [configuration, mimetex, mimetex-dependencies]
 
 - name: create (checkout) directory
@@ -52,5 +51,5 @@
   shell: "git reset --hard && git clean -d -x -f"
   args:
     chdir: "/var/lib/ansible/mimetex/checkouts/mimetex"
-  when: result|changed
+  when: result | changed
   tags: [configuration, mimetex, mimetex-cleanup-build]
