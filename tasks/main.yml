@@ -23,6 +23,7 @@
     repo: https://github.com/Oefenweb/mimetex.git
     dest: "/var/lib/ansible/mimetex/checkouts/mimetex"
     version: "{{ mimetex_version }}"
+    force: true
   tags: [configuration, mimetex, mimetex-checkout]
 
 - name: build cgi file
