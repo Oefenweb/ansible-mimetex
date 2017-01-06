@@ -1,6 +1,6 @@
 ## mimetex
 
-[![Build Status](https://travis-ci.org/Oefenweb/ansible-mimetex.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-mimetex) [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-mimetex-blue.svg)](https://galaxy.ansible.com/list#/roles/3270)
+[![Build Status](https://travis-ci.org/Oefenweb/ansible-mimetex.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-mimetex) [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-mimetex-blue.svg)](https://galaxy.ansible.com/tersmitten/mimetex)
 
 Set up [mimeTeX](http://www.forkosh.com/mimetex.html) in Ubuntu systems.
 
@@ -25,7 +25,7 @@ None
 ---
 - hosts: all
   roles:
-  - mimetex
+    - mimetex
 ```
 
 #### License

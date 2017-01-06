@@ -4,3 +4,5 @@ mimetex_dependencies:
   - build-essential
   - libc6-dev-i386
   - git-core
+
+mimetex_checkout_path: /var/lib/ansible/mimetex/checkouts/mimetex

@@ -3,11 +3,14 @@
 - name: install dependencies
   apt:
     name: "{{ item }}"
-    state: latest
+    state: "{{ apt_install_state | default('latest') }}"
     update_cache: true
     cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
-  with_items: mimetex_dependencies
-  tags: [configuration, mimetex, mimetex-dependencies]
+  with_items: "{{ mimetex_dependencies }}"
+  tags:
+    - configuration
+    - mimetex
+    - mimetex-dependencies
 
 - name: create (checkout) directory
   file:
@@ -16,29 +19,41 @@
     owner: root
     group: root
     mode: 0755
-  tags: [configuration, mimetex, mimetex-checkout ]
+  tags:
+    - configuration
+    - mimetex
+    - mimetex-checkout
 
 - name: checkout repository
   git:
     repo: https://github.com/Oefenweb/mimetex.git
-    dest: "/var/lib/ansible/mimetex/checkouts/mimetex"
+    dest: "{{ mimetex_checkout_path }}"
     version: "{{ mimetex_version }}"
     force: true
-  tags: [configuration, mimetex, mimetex-checkout]
+  tags:
+    - configuration
+    - mimetex
+    - mimetex-checkout
 
 - name: build cgi file
-  shell: "cc -m32 -DAA mimetex.c gifsave.c -lm -o {{ mimetex_install_dir }}/mimetex-{{ mimetex_version }}.cgi"
+  shell: cc -m32 -DAA mimetex.c gifsave.c -lm -o {{ mimetex_install_dir }}/mimetex-{{ mimetex_version }}.cgi
   args:
-    chdir: "/var/lib/ansible/mimetex/checkouts/mimetex"
+    chdir: "{{ mimetex_checkout_path }}"
     creates: "{{ mimetex_install_dir }}/mimetex-{{ mimetex_version }}.cgi"
-  register: result
-  tags: [configuration, mimetex, mimetex-build-cgi]
+  register: _result
+  tags:
+    - configuration
+    - mimetex
+    - mimetex-build-cgi
 
 - name: uninstall apt version
   apt:
     name: mimetex
     state: absent
-  tags: [configuration, mimetex, mimetex-uninstall]
+  tags:
+    - configuration
+    - mimetex
+    - mimetex-uninstall
 
 - name: install cgi file
   file:
@@ -46,11 +61,17 @@
     dest: "{{ mimetex_install_dir }}/mimetex"
     state: link
     force: true
-  tags: [configuration, mimetex, mimetex-install-cgi]
+  tags:
+    - configuration
+    - mimetex
+    - mimetex-install-cgi
 
 - name: cleanup build
-  shell: "git reset --hard && git clean -d -x -f"
+  shell: git reset --hard && git clean -d -x -f
   args:
-    chdir: "/var/lib/ansible/mimetex/checkouts/mimetex"
-  when: result | changed
-  tags: [configuration, mimetex, mimetex-cleanup-build]
+    chdir: "{{ mimetex_checkout_path }}"
+  when: _result | changed
+  tags:
+    - configuration
+    - mimetex,
+    - mimetex-cleanup-build
