@@ -70,7 +70,7 @@
   shell: git reset --hard && git clean -d -x -f
   args:
     chdir: "{{ mimetex_checkout_path }}"
-  when: _result | changed
+  when: _result is changed
   tags:
     - configuration
     - mimetex,
