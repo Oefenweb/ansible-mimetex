@@ -1,6 +1,7 @@
 # meta file for mimetex
 ---
 galaxy_info:
+  role_name: mimetex
   author: Mischa ter Smitten
   company: Oefenweb.nl B.V.
   description: Set up mimetex in Ubuntu systems
