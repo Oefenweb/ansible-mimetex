@@ -2,11 +2,10 @@
 ---
 - name: install dependencies
   apt:
-    name: "{{ item }}"
+    name: "{{ mimetex_dependencies }}"
     state: "{{ apt_install_state | default('latest') }}"
     update_cache: true
     cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
-  with_items: "{{ mimetex_dependencies }}"
   tags:
     - configuration
     - mimetex
@@ -36,7 +35,8 @@
     - mimetex-checkout
 
 - name: build cgi file
-  shell: cc -m32 -DAA mimetex.c gifsave.c -lm -o {{ mimetex_install_dir }}/mimetex-{{ mimetex_version }}.cgi
+  shell: >
+    cc -m32 -DAA mimetex.c gifsave.c -lm -o {{ mimetex_install_dir }}/mimetex-{{ mimetex_version }}.cgi
   args:
     chdir: "{{ mimetex_checkout_path }}"
     creates: "{{ mimetex_install_dir }}/mimetex-{{ mimetex_version }}.cgi"
@@ -67,11 +67,12 @@
     - mimetex-install-cgi
 
 - name: cleanup build
-  shell: git reset --hard && git clean -d -x -f
+  shell: >
+    git reset --hard && git clean -d -x -f
   args:
     chdir: "{{ mimetex_checkout_path }}"
   when: _result is changed
   tags:
     - configuration
-    - mimetex,
+    - mimetex
     - mimetex-cleanup-build
