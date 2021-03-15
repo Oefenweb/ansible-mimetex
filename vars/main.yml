@@ -1,4 +1,4 @@
-# vars file for mimetex
+# vars file
 ---
 mimetex_dependencies:
   - build-essential

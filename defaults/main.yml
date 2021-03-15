@@ -1,4 +1,4 @@
-# defaults file for mimetex
+# defaults file
 ---
 mimetex_version: 1.74-1
 mimetex_install_dir: /usr/bin

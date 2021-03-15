@@ -1,6 +1,7 @@
-# meta file for mimetex
+# meta file
 ---
 galaxy_info:
+  namespace: oefenweb
   role_name: mimetex
   author: Mischa ter Smitten
   company: Oefenweb.nl B.V.
