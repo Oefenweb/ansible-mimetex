@@ -1,7 +1,7 @@
 # tasks file
 ---
 - name: install dependencies
-  apt:
+  ansible.builtin.apt:
     name: "{{ mimetex_dependencies }}"
     state: "{{ apt_install_state | default('latest') }}"
     update_cache: true
@@ -12,7 +12,7 @@
     - mimetex-dependencies
 
 - name: create (checkout) directory
-  file:
+  ansible.builtin.file:
     path: /var/lib/ansible/mimetex/checkouts
     state: directory
     owner: root
@@ -24,7 +24,7 @@
     - mimetex-checkout
 
 - name: checkout repository
-  git:
+  ansible.builtin.git:
     repo: https://github.com/Oefenweb/mimetex.git
     dest: "{{ mimetex_checkout_path }}"
     version: "{{ mimetex_version }}"
@@ -35,7 +35,7 @@
     - mimetex-checkout
 
 - name: build cgi file
-  shell: >
+  ansible.builtin.shell: >
     cc -m32 -DAA mimetex.c gifsave.c -lm -o {{ mimetex_install_dir }}/mimetex-{{ mimetex_version }}.cgi
   args:
     chdir: "{{ mimetex_checkout_path }}"
@@ -47,7 +47,7 @@
     - mimetex-build-cgi
 
 - name: uninstall apt version
-  apt:
+  ansible.builtin.apt:
     name: mimetex
     state: absent
   tags:
@@ -56,7 +56,7 @@
     - mimetex-uninstall
 
 - name: install cgi file
-  file:
+  ansible.builtin.file:
     src: "{{ mimetex_install_dir }}/mimetex-{{ mimetex_version }}.cgi"
     dest: "{{ mimetex_install_dir }}/mimetex"
     state: link
@@ -67,7 +67,7 @@
     - mimetex-install-cgi
 
 - name: cleanup build
-  shell: >
+  ansible.builtin.shell: >
     git reset --hard && git clean -d -x -f
   args:
     chdir: "{{ mimetex_checkout_path }}"
