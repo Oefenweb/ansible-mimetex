@@ -26,7 +26,7 @@ None
 ---
 - hosts: all
   roles:
-    - mimetex
+    - oefenweb.mimetex
 ```
 
 #### License
